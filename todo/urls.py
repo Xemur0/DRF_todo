@@ -20,6 +20,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework.authtoken import views
 from rest_framework.permissions import AllowAny
 from rest_framework.routers import DefaultRouter
+from graphene_django.views import GraphQLView
 
 from project.views import TodoModelViewSet, ProjectModelViewSet
 from users.views import UserCustomViewSet
@@ -49,4 +50,6 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger')),
     path('redoc/', schema_view.with_ui('redoc')),
     path('swagger/<str:format>/', schema_view.without_ui()),
+    path('graphql/', GraphQLView.as_view(graphiql=True)),
+
 ]
