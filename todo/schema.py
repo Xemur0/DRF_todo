@@ -188,7 +188,7 @@ class TodoUpdateMutation(graphene.Mutation):
     todo = graphene.Field(TodoType)
 
     @classmethod
-    def mutate(self, root, info, text, id):
+    def mutate(root, info, text, id):
         todo = Todo.objects.get(id=id)
         todo.text = text
         todo.save()
@@ -204,7 +204,7 @@ class TodoCreateMutation(graphene.Mutation):
     todo = graphene.Field(TodoType)
 
     @classmethod
-    def mutate(self, root, info, text, is_active, creator=None, project=None):
+    def mutate(root, info, text, is_active, creator=None, project=None):
         project = Project.objects.get(id=project)
         creator = User.objects.get(id=creator)
         todo = Todo.objects.create(text=text, is_active=is_active, creator=creator, project=project)
@@ -217,7 +217,7 @@ class TodoDeleteMutation(graphene.Mutation):
     todo = graphene.List(TodoType)
 
     @classmethod
-    def mutate(self, root, info, id):
+    def mutate(root, info, id):
         Todo.objects.get(id=id).delete()
         todo=Todo.objects.all()
         return TodoCreateMutation(todo=todo)
