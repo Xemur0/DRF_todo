@@ -1,11 +1,7 @@
 import React, {Component} from 'react';
-import {Button, Navbar, NavbarBrand, NavLink} from "reactstrap";
+import {Navbar, NavbarBrand, NavLink} from "reactstrap";
 
 import logo from './logo192.png'
-import {Link} from "react-router-dom";
-
-
-
 
 
 class Header extends Component {
@@ -14,6 +10,8 @@ class Header extends Component {
         return (
 
             <Navbar className={'navtop'}>
+
+
 
                 <NavbarBrand href="/">
                     <img src={logo}
@@ -24,7 +22,6 @@ class Header extends Component {
                 <NavLink href="/users">Users</NavLink>
                 <NavLink href="/project">Projects</NavLink>
                 <NavLink href="/todo">ToDoList</NavLink>
-
 
 
             </Navbar>
