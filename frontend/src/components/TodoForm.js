@@ -55,8 +55,6 @@ class TodoForm extends React.Component {
                     <label>Is_active</label>
                     <input type='checkbox' name='is_active' onChange={(event) => this.handleChange(event)}/>
                 </div>
-
-
                 <input type="submit" value="Save"/>
             </form>
         );
