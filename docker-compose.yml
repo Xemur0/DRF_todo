@@ -5,7 +5,7 @@ services:
     image: postgres:13.1
     privileged: true
     ports:
-      - 6000:6000
+      - 5432:5432
     environment:
       POSTGRES_USER: xem
       POSTGRES_PASSWORD: 1
