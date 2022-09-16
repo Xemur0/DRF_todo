@@ -32,7 +32,12 @@ class TodoModelViewSet(ModelViewSet):
     filterset_class = ToDoFilter
 
     def destroy(self, request, *args, **kwargs):
+
         todo = self.get_object()
-        todo.is_active = False
-        todo.save()
+        if todo.is_active == True:
+            todo.is_active = False
+            todo.save()
+        elif todo.is_active == False:
+            todo.is_active = True
+            todo.save()
         return Response(status=status.HTTP_200_OK)

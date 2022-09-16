@@ -10,8 +10,8 @@ import ToDoList from "./components/ToDo";
 import LoginForm from "./components/LoginForm";
 import Cookies from "universal-cookie/lib";
 import {Button} from "reactstrap";
-
-
+import ProjectForm from "./components/projectForm"
+import TodoForm from "./components/TodoForm";
 
 
 class App extends React.Component {
@@ -26,12 +26,67 @@ class App extends React.Component {
         }
     }
 
+    createProject(name, url, users) {
+        const headers = this.get_headers()
+        const data = {name: name, url_rep: url, users: users}
+        axios.post(`http://127.0.0.1:8000/api/project/`, data, {headers}).then(
+            response => {
+                this.load_data()
+            }
+        ).catch(error => {
+            console.log(error)
+            this.setState({projects: []})
+        })
+    }
+
+    createTodo(project, text, creator, is_active) {
+        const headers = this.get_headers()
+        const data = {project: project, text: text, creator: creator, is_active: is_active}
+        console.log(data)
+        axios.post(`http://127.0.0.1:8000/api/todo/`, data, {headers}).then(
+            response => {
+                this.load_data()
+            }
+        ).catch(error => {
+            console.log(error)
+            this.setState({todos: []})
+        })
+    }
+
+    deleteToDo(id) {
+
+        const headers = this.get_headers()
+
+        axios.delete(`http://127.0.0.1:8000/api/todo/${id}`, {headers}).then(
+            response => {
+                this.load_data()
+            }
+        ).catch(error => {
+            console.log(error)
+            this.setState({todos: []})
+        })
+    }
+
+    deleteProject(id) {
+        const headers = this.get_headers()
+        console.log(headers)
+        axios.delete(`http://127.0.0.1:8000/api/project/${id}`, {headers}).then(
+            response => {
+                this.load_data()
+            }
+        ).catch(error => {
+            console.log(error)
+            this.setState({projects: []})
+        })
+    }
+
     set_token(token) {
         console.log(token)
         const cookies = new Cookies()
         cookies.set('token', token)
         this.setState({'token': token}, () => this.load_data())
     }
+
     set_username(username) {
         const cookies = new Cookies()
         cookies.set('username', username)
@@ -136,23 +191,37 @@ class App extends React.Component {
 
             <div>
                 <Header/>
+
+
                 <BrowserRouter>
                     <Route exact path='/users' component={() => <UserList users={this.state.users}/>}/>
-                    <Route exact path='/project' component={() => <ProjectList projects={this.state.projects}/>}/>
-                    <Route exact path='/todo' component={() => <ToDoList todos={this.state.todos}/>}/>
+                    <Route exact path='/todo' component={() => <ToDoList todos={this.state.todos}
+                                                                         deleteToDo={(id) => this.deleteToDo(id)}/>}/>
+                    <Route exact path='/project' component={() => <ProjectList projects={this.state.projects}
+                                                                               deleteProject={(id) => this.deleteProject(id)}/>}/>
+
+
+                    <Route exact path='/todo/create'
+                           component={() => <TodoForm users={this.state.users} projects={this.state.projects}
+                                                      createTodo={(project, text, creator, isActive) => this.createTodo(project, text, creator, isActive)}/>}/>
+
                     <Route exact path='/login' component={() => <LoginForm
                         get_token={(username, password) => this.get_token(username, password)}/>}/>
 
+
+                    <Route exact path='/project/create/'
+                           component={() => <ProjectForm users={this.state.users}
+                                                         createProject={(name, url, users) => this.createProject(name, url, users)}/>}/>
 
 
                     {/*<Navbar>*/}
                     <div className={'button_login'}>
                         <Button>
                             {this.is_auth() ? <div> {this.state.username + ' '}
-                                <Button onClick={() => this.logout()}> Выйти
-                            </Button> </div> :
+                                    <Button onClick={() => this.logout()}> Выйти
+                                    </Button></div> :
                                 <Link to='/login'> Войти</Link>}
-                            </Button>
+                        </Button>
                     </div>
 
 
