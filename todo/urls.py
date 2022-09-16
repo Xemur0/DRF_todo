@@ -18,10 +18,10 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from project.views import TodoModelViewSet, ProjectModelViewSet
-from users.views import UserModelViewSet
+from users.views import UserCustomViewSet
 
 router = DefaultRouter()
-router.register('users', UserModelViewSet)
+router.register('users', UserCustomViewSet)
 router.register('todo',TodoModelViewSet)
 router.register('project',ProjectModelViewSet)
 
