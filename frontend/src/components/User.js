@@ -11,13 +11,13 @@ const UserItem = ({user}) => {
 }
 
 
-const UserList = ({users}) =>{
-    return(
+const UserList = ({users}) => {
+    return (
         <table>
             <th>First name</th>
             <th>Last name</th>
             <th>Email</th>
-            {users.map((user)=> <UserItem user={user} />)}
+            {users.map((user) => <UserItem user={user}/>)}
         </table>
     )
 }
